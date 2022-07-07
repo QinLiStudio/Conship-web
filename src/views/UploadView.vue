@@ -2,8 +2,8 @@
  * @Author: wangbyyds 1362872827@qq.com
  * @Date: 2022-06-19 22:37:30
  * @LastEditors: wangbyyds 1362872827@qq.com
- * @LastEditTime: 2022-06-26 10:37:08
- * @FilePath: \Conship-web-main\src\views\UploadView.vue
+ * @LastEditTime: 2022-07-07 23:56:29
+ * @FilePath: \Conship-web\src\views\UploadView.vue
  * @Description: 
  * 
  * Copyright (c) 2022 by wangbyyds 1362872827@qq.com, All Rights Reserved. 
@@ -22,7 +22,7 @@
       ></MonacoEditor>
       <div class="bottom">
         <Select :selectData="selectData" :selValue="selValue" color="white" @getValue="getValue" />
-        <MyButton type="plain">提交</MyButton>
+        <router-link class="button middle plain" to="/success/URL/SECRET" @click.native="postUpload">提交</router-link>
       </div>
     </div>
 
@@ -39,7 +39,10 @@ import MyChose from '@/components/MyChose.vue'
 import MonacoEditor from 'monaco-editor-vue'
 // import incoder from '@/components/vue-codemirror.vue'
 import Select from '@/components/SelectFormat.vue'
-import MyButton from '@/components/MyButton.vue'
+// import MyButton from '@/components/MyButton.vue'
+
+//按需导入
+import { GetHomeAPI } from '@/request/api.js'
 
 export default {
   name: 'HomeView',
@@ -53,13 +56,22 @@ export default {
     MonacoEditor,
     // incoder,
     Select,
-    MyButton,
+    // MyButton,
   },
   data() {
     return {
       options: {
-        //Monaco Editor Options
+        value: '', // 初始值
+        foldingStrategy: 'indentation', // 代码可分小段折叠
+        automaticLayout: true, // 自适应布局
+        overviewRulerBorder: false, // 不要滚动条的边框
+        autoClosingBrackets: true,
+        tabSize: 2, // tab 缩进长度
+        minimap: {
+          enabled: false, // 不要小地图
+        },
       },
+      //Monaco Editor Options
       selectData: [
         {
           name: 'json',
@@ -91,6 +103,26 @@ export default {
     },
     getValue(name, value, index) {
       console.log('item:', name, value, index)
+    },
+    onEditorMounted(editor, monaco) {
+      window.editor = editor
+      window.monaco = monaco
+    },
+    postUpload() {
+      alert('傻子它调用了')
+      GetHomeAPI({
+        content: 'abcde',
+      }).then((res) => {
+        console.log(res)
+        // alert(res.data), alert(res.data.data.url), alert(res.data.data.secret)
+        this.$router.push({
+          path: '/success',
+          query: {
+            url: res.data.data.url,
+            secret: res.data.data.secret,
+          },
+        })
+      })
     },
   },
   // methods: {
@@ -195,5 +227,30 @@ img {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.button {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: #fff;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.middle {
+  width: 120px;
+  height: 40px;
+  font-size: 17px;
+  border-radius: 10px;
+}
+
+.plain {
+  border-color: #27ba9b;
+  color: #27ba9b;
+  background: #e6faf6;
 }
 </style>
