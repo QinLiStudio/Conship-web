@@ -2,7 +2,7 @@
  * @Author: wangbyyds 1362872827@qq.com
  * @Date: 2022-06-20 23:23:56
  * @LastEditors: wangbyyds 1362872827@qq.com
- * @LastEditTime: 2022-07-08 21:06:17
+ * @LastEditTime: 2022-07-08 22:13:02
  * @FilePath: \Conship-web\src\views\ChangeView.vue
  * @Description: 
  * 
@@ -122,7 +122,7 @@ export default {
       // })
       console.log(this.uname)
       axios
-        .get('http://127.0.0.1:4523/m1/1151307-0-default/secret', {
+        .get('http://127.0.0.1:4523/m1/1111612-0-default/meta', {
           params: {
             secret: this.uname,
           },
