@@ -2,7 +2,7 @@
  * @Author: wangbyyds 1362872827@qq.com
  * @Date: 2022-06-20 23:23:56
  * @LastEditors: wangbyyds 1362872827@qq.com
- * @LastEditTime: 2022-07-08 14:56:01
+ * @LastEditTime: 2022-07-08 21:06:17
  * @FilePath: \Conship-web\src\views\ChangeView.vue
  * @Description: 
  * 
@@ -28,7 +28,10 @@
       ></MonacoEditor>
       <div class="bottom">
         <Select :selectData="selectData" :selValue="selValue" color="white" @getValue="getValue" />
-        <div class="BtnContainer"><MyButton type="plain">提交</MyButton> <MyButton type="plain">删除</MyButton></div>
+        <div class="BtnContainer">
+          <MyButton type="plain" @click.native="PutData">提交</MyButton>
+          <MyButton type="plain" @click.native="DeleteData">删除</MyButton>
+        </div>
       </div>
     </div>
   </div>
@@ -130,6 +133,37 @@ export default {
           console.log(this.options.value)
           console.log(res.data.data.content)
         })
+    },
+    PutData() {
+      alert('调用了PutData')
+      axios
+        .put('http://127.0.0.1:4523/m1/1111612-0-default/meta?apifoxResponseId=56847483', {
+          params: {
+            secret: this.uname,
+            content: this.Editorvalue,
+          },
+        })
+        .then((res) => {
+          console.log(res)
+          console.log(this.uname)
+          console.log(this.Editorvalue)
+        })
+    },
+    DeleteData() {
+      alert('调用了DeleteData')
+      axios
+        .delete('http://127.0.0.1:4523/m1/1111612-0-default/meta?apifoxResponseId=56874523', {
+          params: {
+            secret: this.uname,
+          },
+        })
+        .then((res) => {
+          console.log(res)
+          console.log(this.uname)
+        }),
+        alert('删除成功！')
+      //体验最差的刷新方式 好的需要加钱QAQ方案：利用provide / inject组合
+      this.$router.go(0)
     },
   },
 }
