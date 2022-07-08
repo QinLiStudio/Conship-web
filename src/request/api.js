@@ -2,7 +2,7 @@
  * @Author: wangbyyds 1362872827@qq.com
  * @Date: 2022-07-07 13:41:52
  * @LastEditors: wangbyyds 1362872827@qq.com
- * @LastEditTime: 2022-07-07 23:58:10
+ * @LastEditTime: 2022-07-08 09:45:47
  * @FilePath: \Conship-web\src\request\api.js
  * @Description:
  *
@@ -11,4 +11,7 @@
 import request from './axios'
 
 //上传content内容 post
-export const GetHomeAPI = (params) => request.post('/meta?apifoxResponseId=56847483', params)
+export const PostHomeAPI = (params) => request.post('/push', params)
+
+//输入secret通过get请求得到文本
+export const GetContentAPI = (params) => request.get('/secret', params)

@@ -2,7 +2,7 @@
  * @Author: wangbyyds 1362872827@qq.com
  * @Date: 2022-06-19 22:37:30
  * @LastEditors: wangbyyds 1362872827@qq.com
- * @LastEditTime: 2022-07-07 23:56:29
+ * @LastEditTime: 2022-07-08 08:38:15
  * @FilePath: \Conship-web\src\views\UploadView.vue
  * @Description: 
  * 
@@ -42,7 +42,7 @@ import Select from '@/components/SelectFormat.vue'
 // import MyButton from '@/components/MyButton.vue'
 
 //按需导入
-import { GetHomeAPI } from '@/request/api.js'
+import { PostHomeAPI } from '@/request/api.js'
 
 export default {
   name: 'HomeView',
@@ -82,7 +82,7 @@ export default {
           value: 12,
         },
         {
-          name: 'tomal',
+          name: 'toml',
           value: 13,
         },
         {
@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     onChange(value) {
-      console.log(value)
+      this.options.value = value
     },
     getValue(name, value, index) {
       console.log('item:', name, value, index)
@@ -110,10 +110,12 @@ export default {
     },
     postUpload() {
       alert('傻子它调用了')
-      GetHomeAPI({
-        content: 'abcde',
+      PostHomeAPI({
+        content: this.options.value,
       }).then((res) => {
-        console.log(res)
+        // console.log(res)
+        // console.log(this.onChange)
+        // console.log(this.options.value)
         // alert(res.data), alert(res.data.data.url), alert(res.data.data.secret)
         this.$router.push({
           path: '/success',

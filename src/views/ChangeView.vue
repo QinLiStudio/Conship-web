@@ -2,8 +2,8 @@
  * @Author: wangbyyds 1362872827@qq.com
  * @Date: 2022-06-20 23:23:56
  * @LastEditors: wangbyyds 1362872827@qq.com
- * @LastEditTime: 2022-06-26 10:37:00
- * @FilePath: \Conship-web-main\src\views\ChangeView.vue
+ * @LastEditTime: 2022-07-08 14:56:01
+ * @FilePath: \Conship-web\src\views\ChangeView.vue
  * @Description: 
  * 
  * Copyright (c) 2022 by wangbyyds 1362872827@qq.com, All Rights Reserved. 
@@ -14,7 +14,7 @@
     <div class="main">
       <div class="topBar">
         <MyInput placeholder="密钥" type="text" v-model="uname" clearable></MyInput>
-        <MyButton type="plain">加载</MyButton>
+        <MyButton type="plain" @click.native="Getload">加载</MyButton>
       </div>
       <MonacoEditor
         width="550"
@@ -24,6 +24,7 @@
         :options="options"
         @change="onChange"
         style="margin-top: 20px"
+        v-model="Editorvalue"
       ></MonacoEditor>
       <div class="bottom">
         <Select :selectData="selectData" :selValue="selValue" color="white" @getValue="getValue" />
@@ -40,6 +41,10 @@ import MyButton from '@/components/MyButton.vue'
 import MonacoEditor from 'monaco-editor-vue'
 import Select from '@/components/SelectFormat.vue'
 
+import axios from 'axios'
+//按需导入
+// import { GetContentAPI } from '@/request/api.js'
+
 export default {
   name: 'HomeView',
   components: {
@@ -52,10 +57,20 @@ export default {
   data() {
     return {
       options: {
+        value: '', // 初始值
+        foldingStrategy: 'indentation', // 代码可分小段折叠
+        automaticLayout: true, // 自适应布局
+        overviewRulerBorder: false, // 不要滚动条的边框
+        autoClosingBrackets: true,
+        tabSize: 2, // tab 缩进长度
+        minimap: {
+          enabled: false, // 不要小地图
+        },
         //Monaco Editor Options
       },
       uname: '',
       upwd: '',
+      Editorvalue: '',
       selectData: [
         {
           name: 'json',
@@ -66,7 +81,7 @@ export default {
           value: 12,
         },
         {
-          name: 'tomal',
+          name: 'toml',
           value: 13,
         },
         {
@@ -83,7 +98,38 @@ export default {
   },
   methods: {
     onChange(value) {
+      // this.options.value = value
       console.log(value)
+    },
+    getValue(name, value, index) {
+      console.log('item:', name, value, index)
+    },
+    Getload() {
+      alert('我也调用了')
+      // GetContentAPI({
+      //   paramas: {
+      //     secret: '123456',
+      //   },
+      // }).then((res) => {
+      //   console.log(res)
+      //   console.log(res.data.data.content)
+      //   this.options.value = res.data.data.content
+      //   console.log(this.options.value)
+      //   // console.log(value)
+      // })
+      console.log(this.uname)
+      axios
+        .get('http://127.0.0.1:4523/m1/1151307-0-default/secret', {
+          params: {
+            secret: this.uname,
+          },
+        })
+        .then((res) => {
+          console.log(res)
+          this.Editorvalue = res.data.data.content
+          console.log(this.options.value)
+          console.log(res.data.data.content)
+        })
     },
   },
 }

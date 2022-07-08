@@ -2,7 +2,7 @@
  * @Author: wangbyyds 1362872827@qq.com
  * @Date: 2022-07-05 14:17:22
  * @LastEditors: wangbyyds 1362872827@qq.com
- * @LastEditTime: 2022-07-07 23:57:39
+ * @LastEditTime: 2022-07-08 08:37:57
  * @FilePath: \Conship-web\src\request\axios.js
  * @Description:
  *
@@ -14,7 +14,7 @@ import axios from 'axios'
 //创建一个实例
 const instance = axios.create({
   // baseURL: 'http://127.0.0.1:4523/m1/1151307-0-default',
-  baseURL: 'http://127.0.0.1:4523/m1/1111612-0-default',
+  baseURL: 'http://127.0.0.1:4523/m1/1151307-0-default',
   timeout: 4000,
 })
 
