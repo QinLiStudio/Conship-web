@@ -1,35 +1,56 @@
+<!--
+ * @Author: wangbyyds 1362872827@qq.com
+ * @Date: 2022-06-16 15:10:10
+ * @LastEditors: wangbyyds 1362872827@qq.com
+ * @LastEditTime: 2022-06-26 10:36:52
+ * @FilePath: \Conship-web-main\src\App.vue
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by wangbyyds 1362872827@qq.com, All Rights Reserved. 
+-->
 <template>
   <div id="app">
     <router-view />
-    <MonacoEditor
+    <!-- <MonacoEditor
       width="800"
       height="500"
       theme="vs-dark"
       language="javascript"
       :options="options"
       @change="onChange"
-    ></MonacoEditor>
+    ></MonacoEditor> -->
   </div>
 </template>
 <script>
-import MonacoEditor from 'monaco-editor-vue'
+// import MonacoEditor from 'monaco-editor-vue'
 export default {
   name: 'App',
-  components: {
-    MonacoEditor,
-  },
-  data() {
-    return {
-      options: {
-        //Monaco Editor Options
-      },
-    }
-  },
   methods: {
-    onChange(value) {
-      console.log(value)
+    uploadMsg() {
+      this.$router.push({ path: '/upload' })
+    },
+    changeMsg() {
+      this.$router.push({ path: '/change' })
+    },
+    readHelp() {
+      this.$router.push({ path: '/home' })
     },
   },
+  // components: {
+  //   MonacoEditor,
+  // },
+  // data() {
+  //   return {
+  //     options: {
+  //       //Monaco Editor Options
+  //     },
+  //   }
+  // },
+  // methods: {
+  //   // onChange(value) {
+  //   //   console.log(value)
+  //   // },
+  // },
 }
 </script>
 <style lang="scss">
@@ -54,3 +75,10 @@ nav {
   }
 }
 </style>
+<!-- /*开发日志 */
+1.完成三个组件化页面
+2.整理路由实现页面跳转√
+3、封装axios -->
+
+/*第一版思路 是将chose块当做组件写多个页面vue 实现跳转 后有思路，将chose块写死在app.vue
+尝试是否可以解决切换单页面内容不成功的问题 */

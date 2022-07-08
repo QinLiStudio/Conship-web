@@ -21,3 +21,5 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# gitignore是git 的忽略文件 不想接受……的管理 在这里配置
