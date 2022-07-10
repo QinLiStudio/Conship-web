@@ -1,56 +1,46 @@
+<!--
+ * @Author: Louisvent 719681964@qq.com
+ * @Date: 2022-06-21 17:23:46
+ * @LastEditors: Louisvent 719681964@qq.com
+ * @LastEditTime: 2022-07-10 09:16:20
+ * @FilePath: \前端\Conship-web\src\App.vue
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by Louisvent 719681964@qq.com, All Rights Reserved. 
+-->
 <template>
   <div id="app">
-    <router-view />
-    <MonacoEditor
-      width="800"
-      height="500"
-      theme="vs-dark"
-      language="javascript"
-      :options="options"
-      @change="onChange"
-    ></MonacoEditor>
+    <router-view v-if="isShow"></router-view>
   </div>
 </template>
+
 <script>
-import MonacoEditor from 'monaco-editor-vue'
 export default {
   name: 'App',
-  components: {
-    MonacoEditor,
+  provide() {
+    return {
+      reload: this.reload,
+    }
   },
   data() {
     return {
-      options: {
-        //Monaco Editor Options
-      },
+      isShow: true,
     }
   },
   methods: {
-    onChange(value) {
-      console.log(value)
+    reload() {
+      this.isShow = false
+      this.$nextTick(() => {
+        this.isShow = true
+      })
     },
   },
 }
 </script>
+
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  width: 900px;
+  height: 600px;
 }
 </style>
