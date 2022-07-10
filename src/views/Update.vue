@@ -2,7 +2,7 @@
  * @Author: Louisvent 719681964@qq.com
  * @Date: 2022-06-21 17:24:51
  * @LastEditors: Louisvent 719681964@qq.com
- * @LastEditTime: 2022-06-21 18:19:54
+ * @LastEditTime: 2022-07-10 09:13:40
  * @FilePath: \前端\Conship-web\src\views\Update.vue
  * @Description: 配置文件托管平台修改
  * 
@@ -16,6 +16,7 @@
       <p>密钥：</p>
       <input class="secretinput" v-model="secret" type="text" />
       <button id="getmessagebtn" @click="getmessage()">加载</button>
+      <button id="getbtn" @click="getmessagebtn()">提取</button>
     </div>
     <MonacoEditor
       class="editor"
@@ -41,7 +42,7 @@ export default {
       secret: '',
       options: {
         // Monaco Editor Options
-        value: '',
+        value: JSON.parse(localStorage.getItem('GET')),
       },
       language: '',
     }
@@ -49,14 +50,6 @@ export default {
   components: {
     Button,
     MonacoEditor,
-  },
-  mounted() {
-    document.querySelector('#getmessagebtn').addEventListener('click', function () {
-      this.getmessage()
-    })
-    document.querySelector('#deletebtn').addEventListener('click', function () {
-      this.deletemessage()
-    })
   },
   methods: {
     async getmessage() {
@@ -67,18 +60,25 @@ export default {
       })
       console.log(res)
       console.log(res.data.content)
+      this.content = res.data.content
+      localStorage.setItem('GET', JSON.stringify(this.content))
     },
     async deletemessage() {
-      const { data: res } = await axios.delete('http://127.0.0.1:4523/m1/1151307-0-default/delete', {
-        secret: this.secret,
-      })
+      const { data: res } = await axios.delete(
+        'http://127.0.0.1:4523/m1/1111612-0-default/meta?apifoxResponseId=56874523',
+        { secret: this.secret }
+      )
       console.log(res)
     },
     onChange(value) {
       this.options.value = value
       console.log(value)
     },
+    getmessagebtn() {
+      this.reload()
+    },
   },
+  inject: ['reload'],
 }
 </script>
 
@@ -106,6 +106,14 @@ export default {
   border-radius: 7px;
 }
 #getmessagebtn {
+  width: 70px;
+  height: 30px;
+  border-radius: 7px;
+  margin-left: 10px;
+  border: 1px solid black;
+  background-color: white;
+}
+#getbtn {
   width: 70px;
   height: 30px;
   border-radius: 7px;
