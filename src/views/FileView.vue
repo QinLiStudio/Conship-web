@@ -7,7 +7,9 @@
 <template>
   <div class="filepage">
     <el-row type="flex" justify="center" align="top" class="mian-container">
+      <!-- 左侧菜单栏 -->
       <MenuBar></MenuBar>
+      <!-- 右侧内容块 -->
       <el-col type="flex" justify="center" class="main-content-box" :span="15">
         <MonacoEditor width="700" height="600" theme="vs" language="json"></MonacoEditor>
       </el-col>

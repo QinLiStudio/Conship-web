@@ -1,15 +1,17 @@
 <!--
  * @FilePath: \Conship-web\src\views\HomeView.vue
  * @Author: Solitude-DDD
- * @Date: 2022-06-20 15:12:41
+ * @Date: 2022-07-03 16:10:32
  * @Description: 配置文件上传页面
 -->
 <template>
   <div class="homepage">
     <el-row type="flex" justify="center" align="top" class="mian-container">
+      <!-- 左侧菜单栏 -->
       <MenuBar></MenuBar>
+      <!-- 右侧内容块 -->
       <el-col type="flex" justify="center" class="main-content-box" :span="15">
-        <MonacoEditor width="700" height="500" theme="vs" language="json"></MonacoEditor>
+        <MonacoEditor width="700" height="500" theme="vs" :language="type" v-model="content"></MonacoEditor>
         <el-divider></el-divider>
         <el-row type="flex" justify="space-between" align="middle" class="main-btn-container">
           <el-col :span="6" class="main-btns">
@@ -19,7 +21,7 @@
             </el-select>
           </el-col>
           <el-col :span="6" class="main-btns">
-            <el-button plain>提 交</el-button>
+            <el-button plain @click="UploadConfig">提 交</el-button>
           </el-col>
         </el-row>
       </el-col>
@@ -30,6 +32,8 @@
 <script>
 import MonacoEditor from 'monaco-editor-vue'
 import MenuBar from '@/components/MenuBar.vue'
+import { myAxios } from '@/request/myAxios'
+import router from '@/router'
 export default {
   components: {
     MonacoEditor,
@@ -38,17 +42,33 @@ export default {
   data() {
     return {
       typeList: [
-        { value: '选项1', label: 'json' },
-        { value: '选项2', label: 'ymal' },
-        { value: '选项3', label: 'xml' },
-        { value: '选项4', label: 'ini' },
+        { value: 'json', label: 'json' },
+        { value: 'ymal', label: 'ymal' },
+        { value: 'xml', label: 'xml' },
+        { value: 'ini', label: 'ini' },
       ],
       type: '',
+      content: '',
     }
   },
   methods: {
-    selectFormat() {
-      console.log(this)
+    UploadConfig() {
+      myAxios('post', this.content)
+        .then((response) => {
+          console.log(response)
+          if (response.status_code == 201) {
+            router.push({
+              name: '/post',
+              params: { id: response.data.url, secret: response.data.secret },
+            })
+          } else {
+            alert(response.error_message)
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+          alert('提交失败')
+        })
     },
   },
 }
@@ -56,7 +76,7 @@ export default {
 
 <style>
 body {
-  min-width: 1200px;
+  min-width: 1150px;
   padding: 0;
   margin: 0;
   background-color: #a7abb7;
@@ -71,7 +91,7 @@ body {
 .main-content-box {
   height: 640px;
   border: 2px solid #fff;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   flex-direction: column;
   padding: 1%;

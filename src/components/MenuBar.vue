@@ -7,7 +7,7 @@
 <template>
   <el-col type="flex" justify="center" align="top" :span="3" class="menu-container">
     <el-menu background-color="#fffffe" text-color="#5f6368" active-text-color="#ff6c37">
-      <el-menu-item v-for="item in menuList" :key="item" @click="next(item.path)">
+      <el-menu-item v-for="item in menuList" :key="item.menuName" @click="next(item.path)">
         <i class="el-icon-menu"></i>
         <span slot="title">{{ item.menuName }}</span>
       </el-menu-item>
@@ -38,7 +38,7 @@ export default {
 <style>
 .menu-container {
   border: 2px solid #fff;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   padding: 1%;
   max-width: 130px;

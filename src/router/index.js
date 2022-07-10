@@ -16,13 +16,18 @@ const routes = [
   // 初始页面
   { path: '/', redirect: '/home' },
   // 页面配置
-  { path: '/home', component: HomePage },
-  { path: '/post', component: PostPage },
-  { path: '/file', component: FilePage },
-  { path: '/modify', component: ModifyPage },
+  { name: '/home', path: '/home', component: HomePage },
+  { name: '/post', path: '/post', component: PostPage },
+  { name: '/file', path: '/file', component: FilePage },
+  { name: '/modify', path: '/modify', component: ModifyPage },
 ]
 
 const router = new VueRouter({
   routes,
 })
+const VueRouterPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(to) {
+  return VueRouterPush.call(this, to).catch((err) => err)
+}
+
 export default router
