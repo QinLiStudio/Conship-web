@@ -1,22 +1,20 @@
 <template>
   <div id="app">
+    <div>
+      <div>
+        <AllButton />
+      </div>
+    </div>
     <router-view />
-    <MonacoEditor
-      width="800"
-      height="500"
-      theme="vs-dark"
-      language="javascript"
-      :options="options"
-      @change="onChange"
-    ></MonacoEditor>
   </div>
 </template>
 <script>
-import MonacoEditor from 'monaco-editor-vue'
+import AllButton from './views/AllButton.vue'
+
 export default {
   name: 'App',
   components: {
-    MonacoEditor,
+    AllButton,
   },
   data() {
     return {
