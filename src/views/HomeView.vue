@@ -21,7 +21,7 @@
             </el-select>
           </el-col>
           <el-col :span="6" class="main-btns">
-            <el-button plain @click="UploadConfig">提 交</el-button>
+            <el-button :plain="true" @click="UploadConfig">提 交</el-button>
           </el-col>
         </el-row>
       </el-col>
@@ -53,22 +53,36 @@ export default {
   },
   methods: {
     UploadConfig() {
-      myAxios('post', this.content)
-        .then((response) => {
-          console.log(response)
-          if (response.status_code == 201) {
-            router.push({
-              name: '/post',
-              params: { id: response.data.url, secret: response.data.secret },
-            })
-          } else {
-            alert(response.error_message)
-          }
+      if (this.content == '') {
+        this.$message('请输入配置文件')
+      } else {
+        this.$confirm('是否提交该配置文件?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
         })
-        .catch(function (error) {
-          console.log(error)
-          alert('提交失败')
-        })
+          .then(() => {
+            myAxios('post', this.content)
+              .then((response) => {
+                console.log(response)
+                if (response.code == 201) {
+                  router.push({
+                    name: '/post',
+                    params: { id: response.data.url, secret: response.data.secret },
+                  })
+                } else {
+                  this.$message(response.msg)
+                }
+              })
+              .catch(function (error) {
+                console.log(error)
+                this.$message('提交失败')
+              })
+          })
+          .catch(() => {
+            this.$message('已取消该操作')
+          })
+      }
     },
   },
 }

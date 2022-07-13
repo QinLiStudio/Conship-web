@@ -12,7 +12,7 @@ module.exports = defineConfig({
     config.plugin('monaco-editor').use(MonacoWebpackPlugin, [
       {
         // Languages are loaded on demand at runtime
-        languages: ['json', 'ymal', 'xml', 'ini'],
+        languages: ['json', 'ymal', 'xml', 'ini', 'javascript', 'html'],
       },
     ])
   },

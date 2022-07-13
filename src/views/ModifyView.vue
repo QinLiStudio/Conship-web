@@ -13,7 +13,7 @@
       <el-col type="flex" justify="center" class="main-content-box" :span="15">
         <el-row type="flex" justify="flex-start" align="middle" class="content-search-container">
           <el-col :span="8" class="main-btns">
-            <el-input placeholder="请输入密钥或链接" v-model="input" clearable></el-input>
+            <el-input placeholder="请输入密钥" v-model="input" clearable></el-input>
           </el-col>
           <el-col :span="3" class="main-btns">
             <el-button plain @click="SearchConfig"> 加 载 </el-button>
@@ -30,8 +30,8 @@
             </el-select>
           </el-col>
           <el-col :span="6" class="main-btns">
-            <el-button plain @click="ModifyConfig"> 提 交 </el-button>
-            <el-button plain @click="DelectConfig"> 删 除 </el-button>
+            <el-button :plain="true" @click="ModifyConfig"> 提 交 </el-button>
+            <el-button :plain="true" @click="DelectConfig"> 删 除 </el-button>
           </el-col>
         </el-row>
       </el-col>
@@ -59,58 +59,88 @@ export default {
       ],
       type: '',
       content: '',
+      statu: '',
     }
   },
-  created() {},
   methods: {
     SearchConfig() {
       myAxios('get', this.input)
         .then((response) => {
           console.log(response)
-          this.content = response.data
+          // if (response.code == 200) {
+          this.content = response
+          this.statu = this.content
+          this.$message('加载成功')
+          // } else {
+          // this.$message(response.msg)
+          // }
         })
         .catch((error) => {
           console.log(error)
-          alert('提交失败')
+          this.$message('加载失败')
         })
     },
     ModifyConfig() {
-      if (this.input == '' || this.content == '') {
-        alert('请先加载需要修改的配置文件')
+      if (this.input == '' || this.statu == '') {
+        this.$message('请先加载需要修改的配置文件')
+      } else if (this.statu == this.content) {
+        this.$message('请修改后再提交')
       } else {
-        myAxios('put', this.content)
-          .then((response) => {
-            console.log(response)
-            if (response.status_code == 201) {
-              alert('修改成功')
-            } else {
-              alert(response.error_message)
-            }
+        this.$confirm('此操作将修改该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        })
+          .then(() => {
+            myAxios('put', this.content)
+              .then((response) => {
+                console.log(response)
+                if (response.code == 200) {
+                  this.statu = this.content
+                  this.$message({ type: 'success', message: '修改成功!' })
+                } else {
+                  this.$message(response.msg)
+                }
+              })
+              .catch((error) => {
+                console.log(error)
+                this.$message('提交失败')
+              })
           })
-          .catch((error) => {
-            console.log(error)
-            alert('提交失败')
+          .catch(() => {
+            this.$message('已取消修改')
           })
       }
     },
     DelectConfig() {
-      if (this.input == '' || this.content == '') {
-        alert('请先加载需要删除的配置文件')
+      if (this.input == '' || this.statu == '') {
+        this.$message('请先加载需要删除的配置文件')
       } else {
-        myAxios('del', this.input)
-          .then((response) => {
-            console.log(response)
-            if (response.status_code == 204) {
-              this.input = ''
-              this.content = ''
-              alert('删除成功')
-            } else {
-              alert(response.error_message)
-            }
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        })
+          .then(() => {
+            myAxios('del', this.input)
+              .then((response) => {
+                console.log(response)
+                if (response.code == 200) {
+                  this.input = ''
+                  this.content = ''
+                  this.statu = ''
+                  this.$message({ type: 'success', message: '删除成功!' })
+                } else {
+                  this.$message(response.msg)
+                }
+              })
+              .catch((error) => {
+                console.log(error)
+                this.$message('删除失败')
+              })
           })
-          .catch((error) => {
-            console.log(error)
-            alert('删除失败')
+          .catch(() => {
+            this.$message('已取消删除')
           })
       }
     },

@@ -22,11 +22,17 @@
           <el-col :span="12">
             <el-input :disabled="true" v-model="link"></el-input>
           </el-col>
+          <el-col :span="2">
+            <el-button :plain="true" @click="Copy(link)">复制</el-button>
+          </el-col>
         </el-row>
         <el-row type="flex" justify="center" align="middle" class="input-box">
           <span>密钥：</span>
           <el-col :span="12">
-            <el-input :disabled="true" v-model="key"> </el-input>
+            <el-input :disabled="true" v-model="key"></el-input>
+          </el-col>
+          <el-col :span="2">
+            <el-button :plain="true" @click="Copy(key)">复制</el-button>
           </el-col>
         </el-row>
       </el-col>
@@ -45,6 +51,26 @@ export default {
       link: this.$route.params.id,
       key: this.$route.params.secret,
     }
+  },
+  created() {
+    if (this.link == undefined || this.key == undefined) {
+      this.$router.push({
+        path: '/home',
+      })
+    }
+  },
+  methods: {
+    Copy(data) {
+      let elInput = document.createElement('input')
+      elInput.value = data
+      document.body.appendChild(elInput)
+      // 选择对象
+      elInput.select()
+      // 执行浏览器复制命令
+      document.execCommand('Copy')
+      this.$message({ type: 'success', message: '复制成功!' })
+      elInput.remove()
+    },
   },
 }
 </script>
