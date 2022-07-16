@@ -67,13 +67,9 @@ export default {
       myAxios('get', this.input)
         .then((response) => {
           console.log(response)
-          // if (response.code == 200) {
           this.content = response
           this.statu = this.content
           this.$message('加载成功')
-          // } else {
-          // this.$message(response.msg)
-          // }
         })
         .catch((error) => {
           console.log(error)

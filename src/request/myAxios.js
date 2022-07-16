@@ -4,30 +4,20 @@
  * @Date: 2022-07-06 17:40:16
  * @Description: 简单封装调用axios
  */
-
 import axios from 'axios'
-const baseURL = 'http://127.0.0.1:4523/m1/1111612-0-default/meta'
-// const re = /^[a-zA-Z0-9]{8}$/
+const baseURL = 'http://127.0.0.1:4523/m1/1111612-0-default'
 
 export async function myAxios(method, Data) {
   if (method == 'get') {
-    // if (re.test(Data)) {
     const { data: res } = await axios({
       method: method,
-      url: baseURL + '/{secret=' + Data + '}',
+      url: baseURL + '/meta/' + Data,
     })
     return res
-    // } else {
-    //   const { data: res } = await axios({
-    //     method: method,
-    //     url: baseURL + '/{path=' + Data + '}',
-    //   })
-    //   return res
-    // }
   } else if (method == 'del') {
     const { data: res } = await axios({
       method: 'delete',
-      url: baseURL,
+      url: baseURL + '/meta',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -39,7 +29,7 @@ export async function myAxios(method, Data) {
   } else {
     const { data: res } = await axios({
       method: method,
-      url: baseURL,
+      url: baseURL + '/meta',
       headers: {
         'Content-Type': 'application/json',
       },
