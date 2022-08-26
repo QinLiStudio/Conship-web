@@ -76,7 +76,7 @@ export default {
               })
               .catch(function (error) {
                 console.log(error)
-                this.$message('提交失败')
+                this.$message({ type: 'warning', message: '提交失败,' + error.response.data.msg })
               })
           })
           .catch(() => {

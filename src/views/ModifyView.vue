@@ -66,14 +66,14 @@ export default {
     SearchConfig() {
       myAxios('get', this.input)
         .then((response) => {
-          console.log(response)
+          // console.log(response)
           this.content = response
           this.statu = this.content
-          this.$message('加载成功')
+          this.$message({ type: 'success', message: '加载成功' })
         })
         .catch((error) => {
-          console.log(error)
-          this.$message('加载失败')
+          // console.log(error)
+          this.$message({ type: 'warning', message: '加载失败,' + error.response.data.msg })
         })
     },
     ModifyConfig() {
@@ -90,7 +90,7 @@ export default {
           .then(() => {
             myAxios('put', this.content)
               .then((response) => {
-                console.log(response)
+                // console.log(response)
                 if (response.code == 200) {
                   this.statu = this.content
                   this.$message({ type: 'success', message: '修改成功!' })
@@ -99,8 +99,8 @@ export default {
                 }
               })
               .catch((error) => {
-                console.log(error)
-                this.$message('提交失败')
+                // console.log(error)
+                this.$message({ type: 'warning', message: '提交失败,' + error.response.data.msg })
               })
           })
           .catch(() => {
@@ -120,7 +120,7 @@ export default {
           .then(() => {
             myAxios('del', this.input)
               .then((response) => {
-                console.log(response)
+                // console.log(response)
                 if (response.code == 200) {
                   this.input = ''
                   this.content = ''
@@ -131,8 +131,8 @@ export default {
                 }
               })
               .catch((error) => {
-                console.log(error)
-                this.$message('删除失败')
+                // console.log(error)
+                this.$message({ type: 'warning', message: '删除失败,' + error.response.data.msg })
               })
           })
           .catch(() => {

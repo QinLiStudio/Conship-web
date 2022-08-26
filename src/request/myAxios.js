@@ -5,7 +5,7 @@
  * @Description: 简单封装调用axios
  */
 import axios from 'axios'
-const baseURL = 'http://127.0.0.1:4523/m1/1111612-0-default'
+const baseURL = 'https://qlapi.sylu.edu.cn/conship'
 
 export async function myAxios(method, Data) {
   if (method == 'get') {
@@ -19,7 +19,7 @@ export async function myAxios(method, Data) {
       method: 'delete',
       url: baseURL + '/meta',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       },
       data: {
         secret: Data,
@@ -31,7 +31,7 @@ export async function myAxios(method, Data) {
       method: method,
       url: baseURL + '/meta',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       },
       data: {
         content: Data,
